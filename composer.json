@@ -1,0 +1,35 @@
+{
+  "name": "77gears/laravel-react-make",
+  "description": "Artisan command to generate React components",
+  "keywords": [
+    "laravel",
+    "react",
+    "artisan",
+    "generator"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Joby Harding",
+      "email": "joby@77gears.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "_77Gears_\\ReactMake\\": "src/_77Gears_"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php": "^7.2",
+    "laravel/framework": "^6.0|^7.0"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "_77Gears_\\ReactMake\\Support\\CommandsProvider"
+      ]
+    }
+  }
+}

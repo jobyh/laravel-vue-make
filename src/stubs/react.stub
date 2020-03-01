@@ -1,0 +1,9 @@
+import React from "react";
+
+function DummyComponent() {
+    return (
+      {/* */}
+    );
+}
+
+export default DummyComponent;
