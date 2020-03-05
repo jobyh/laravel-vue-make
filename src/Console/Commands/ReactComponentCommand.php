@@ -47,7 +47,7 @@ class ReactComponentCommand extends Command
 
     protected function getStub() : string
     {
-        return realpath(__DIR__ . '/../../../stubs/react.stub');
+        return realpath(__DIR__ . '/../../stubs/react.stub');
     }
 
     protected function makeDirectory(string $path) : string
