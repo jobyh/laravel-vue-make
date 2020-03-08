@@ -4,6 +4,7 @@ namespace _77Gears_\ReactMake\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\App;
 
 class ReactComponentCommand extends Command
 {
@@ -38,22 +39,26 @@ class ReactComponentCommand extends Command
     protected function getPath(string $name) : string
     {
         $subDir = $this->option('dir') ? "{$this->option('dir')}/" : '';
-        return base_path("/resources/js/components/{$subDir}{$name}.{$this->getExtension()}");
+        return App::resourcePath("js/components/{$subDir}{$name}.{$this->getExtension()}");
     }
 
     protected function getExtension() : string {
-        return $this->option('jsx') ? 'jsx' : 'js';
+        return $this->option('jsx')
+            ? 'jsx'
+            : 'js';
     }
 
     protected function getStub() : string
     {
-        return realpath(__DIR__ . '/../../stubs/react.stub');
+        return realpath(__DIR__ . '/../../../stubs/react.stub');
     }
 
     protected function makeDirectory(string $path) : string
     {
-        if (! $this->files->isDirectory(dirname($path))) {
-            return $this->files->makeDirectory(dirname($path), 0777, true, true);
+        $dirpath = dirname($path);
+
+        if (! $this->files->isDirectory(dirname($dirpath))) {
+            return $this->files->makeDirectory($dirpath, 0777, true, true);
         }
 
         return $path;
@@ -76,6 +81,7 @@ class ReactComponentCommand extends Command
         $name = $this->argument('name');
         $path = $this->getPath($name);
 
+        // TODO if not interactive then throw.
         if ($this->files->exists($path) && ! $this->confirm("Overwrite existing component {$name}?")) {
             return;
         }
