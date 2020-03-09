@@ -38,7 +38,9 @@ class ReactComponentCommand extends Command
 
     protected function getPath(string $name) : string
     {
-        $subDir = $this->option('dir') ? "{$this->option('dir')}/" : '';
+        $subDir = $this->option('dir')
+            ? "{$this->option('dir')}/"
+            : '';
         return App::resourcePath("js/components/{$subDir}{$name}.{$this->getExtension()}");
     }
 
@@ -50,6 +52,12 @@ class ReactComponentCommand extends Command
 
     protected function getStub() : string
     {
+        $override = base_path('stubs/react.stub');
+
+        if ($this->files->exists($override)) {
+            return $override;
+        }
+
         return realpath(__DIR__ . '/../../../stubs/react.stub');
     }
 
@@ -57,7 +65,7 @@ class ReactComponentCommand extends Command
     {
         $dirpath = dirname($path);
 
-        if (! $this->files->isDirectory(dirname($dirpath))) {
+        if (! $this->files->isDirectory($dirpath)) {
             return $this->files->makeDirectory($dirpath, 0777, true, true);
         }
 

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
 use Orchestra\Testbench\TestCase;
 use Illuminate\Filesystem\Filesystem;
 use Mockery\MockInterface;
@@ -14,7 +15,6 @@ class ReactComponentCommandTest extends TestCase {
         return [CommandsProvider::class];
     }
 
-
     public function test_it_requires_name_parameter()
     {
         $this->expectErrorMessage('missing: "name"');
@@ -24,7 +24,6 @@ class ReactComponentCommandTest extends TestCase {
 
     public function test_it_checks_if_component_already_exists()
     {
-
         $this->mock(Filesystem::class, function(MockInterface $mock) {
             $filepath = resource_path('js/components/TestComponent.js');
 
@@ -34,10 +33,16 @@ class ReactComponentCommandTest extends TestCase {
                 'get' => 'template content',
                 'put' => 23,
             ]);
+
+            // Behaviour under test.
             $mock->shouldReceive('exists')
                 ->with($filepath)
                 ->once()
                 ->andReturn(false);
+
+            // The method is subsequently called
+            // but this is not the call under test.
+            $mock->shouldReceive('exists')->once();
         });
 
         $result = Artisan::call('react:component', ['name' => 'TestComponent']);
@@ -104,6 +109,21 @@ class ReactComponentCommandTest extends TestCase {
 
         $result = Artisan::call('react:component', ['name' => 'TestComponent', '--jsx' => true]);
         $this->assertSame(0, $result);
+    }
+
+    public function test_it_uses_overridden_stubs()
+    {
+        File::deleteDirectory(base_path('stubs'));
+        File::deleteDirectory(resource_path('js/components'));
+
+        $stubPath = base_path('stubs/react.stub');
+        File::makeDirectory(dirname($stubPath));
+        File::put($stubPath, 'Overridden stub');
+
+        $result = Artisan::call('react:component', ['name' => 'TestComponent']);
+
+        $this->assertSame(0, $result);
+        $this->assertSame('Overridden stub', File::get(resource_path('js/components/TestComponent.js')));
     }
 
  }

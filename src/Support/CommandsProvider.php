@@ -17,5 +17,8 @@ class CommandsProvider extends ServiceProvider
       ReactComponentCommand::class,
     ]);
 
+    $this->publishes([
+        __DIR__ . '/../../stubs/react.stub' => base_path('stubs/react.stub'),
+    ], 'react-stub');
   }
 }
