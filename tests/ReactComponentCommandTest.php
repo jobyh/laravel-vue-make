@@ -126,4 +126,15 @@ class ReactComponentCommandTest extends TestCase {
         $this->assertSame('Overridden stub', File::get(resource_path('js/components/TestComponent.js')));
     }
 
+    public function test_it_publishes_stub()
+    {
+        File::deleteDirectory(base_path('stubs'));
+        File::deleteDirectory(resource_path('js/components'));
+
+        $result = Artisan::call('vendor:publish', ['--tag' => 'react-stub']);
+
+        $this->assertSame(0, $result);
+        $this->assertTrue(File::exists(base_path('stubs/react.stub')), 'Stub was not published.');
+    }
+
  }
