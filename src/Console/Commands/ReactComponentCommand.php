@@ -13,7 +13,7 @@ class ReactComponentCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'react:component {name} {--x|jsx} {--d|dir=}';
+    protected $signature = 'react:component {name} {--x|jsx} {--d|dir=} {--c|class}';
 
     /**
      * The console command description.
@@ -52,13 +52,16 @@ class ReactComponentCommand extends Command
 
     protected function getStub() : string
     {
-        $override = base_path('stubs/react.stub');
+        $stub = $this->option('class')
+            ? 'react-class.stub'
+            : 'react.stub';
+        $override = base_path("stubs/{$stub}");
 
         if ($this->files->exists($override)) {
             return $override;
         }
 
-        return realpath(__DIR__ . '/../../../stubs/react.stub');
+        return realpath(__DIR__ . "/../../../stubs/{$stub}");
     }
 
     protected function makeDirectory(string $path) : string

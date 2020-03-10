@@ -7,18 +7,31 @@ use _77Gears_\ReactMake\Console\Commands\ReactComponentCommand;
 
 class CommandsProvider extends ServiceProvider
 {
-  public function boot()
-  {
-    if (!$this->app->runningInConsole()) {
-      return;
+
+    public static function stubs()
+    {
+        return [
+            'react.stub',
+            'react-class.stub',
+        ];
     }
 
-    $this->commands([
-      ReactComponentCommand::class,
-    ]);
+    public function boot()
+    {
+        if (!$this->app->runningInConsole()) {
+            return;
+        }
 
-    $this->publishes([
-        __DIR__ . '/../../stubs/react.stub' => base_path('stubs/react.stub'),
-    ], 'react-stub');
-  }
+        $this->commands([
+            ReactComponentCommand::class,
+        ]);
+
+        $publishes = [];
+
+        foreach (static::stubs() as $stub) {
+            $publishes[__DIR__ . "/../../stubs/{$stub}"] = base_path("stubs/{$stub}");
+        }
+
+        $this->publishes($publishes, 'react-stub');
+    }
 }

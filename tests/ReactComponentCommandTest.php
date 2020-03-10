@@ -8,6 +8,8 @@ use Illuminate\Filesystem\Filesystem;
 use Mockery\MockInterface;
 use _77Gears_\ReactMake\Support\CommandsProvider;
 
+// TODO use either path helpers OR App facade.
+
 class ReactComponentCommandTest extends TestCase {
 
     protected function getPackageProviders($app)
@@ -73,6 +75,25 @@ class ReactComponentCommandTest extends TestCase {
         $this->assertSame(0, $result);
     }
 
+    public function test_it_retrieves_stub()
+    {
+        $this->mock(Filesystem::class, function(MockInterface $mock) {
+            // Stubs.
+            $mock->allows([
+                'exists' => false,
+                'isDirectory' => true,
+                'put' => 890,
+            ]);
+
+            $mock->shouldReceive('get')
+                ->with(realpath(__DIR__ . '/../stubs/react.stub'))
+                ->once();
+        });
+
+        $result = Artisan::call('react:component', ['name' => 'TestComponent']);
+        $this->assertSame(0, $result);
+    }
+
     public function test_it_writes_component()
     {
         $this->mock(Filesystem::class, function(MockInterface $mock) {
@@ -126,7 +147,7 @@ class ReactComponentCommandTest extends TestCase {
         $this->assertSame('Overridden stub', File::get(resource_path('js/components/TestComponent.js')));
     }
 
-    public function test_it_publishes_stub()
+    public function test_it_publishes_stubs()
     {
         File::deleteDirectory(base_path('stubs'));
         File::deleteDirectory(resource_path('js/components'));
@@ -134,7 +155,32 @@ class ReactComponentCommandTest extends TestCase {
         $result = Artisan::call('vendor:publish', ['--tag' => 'react-stub']);
 
         $this->assertSame(0, $result);
-        $this->assertTrue(File::exists(base_path('stubs/react.stub')), 'Stub was not published.');
+
+        foreach (CommandsProvider::stubs() as $stub) {
+            $this->assertTrue(File::exists(base_path("stubs/{$stub}")), "Stub {$stub} was not published.");
+        }
     }
 
- }
+    public function test_it_uses_class_component_stub()
+    {
+        File::deleteDirectory(base_path('stubs'));
+        File::deleteDirectory(resource_path('js/components'));
+
+        $this->mock(Filesystem::class, function(MockInterface $mock) {
+            // Stubs.
+            $mock->allows([
+                'exists' => false,
+                'isDirectory' => true,
+                'put' => 23,
+            ]);
+
+            $mock->shouldReceive('get')
+                ->with(realpath(__DIR__ . '/../stubs/react-class.stub'))
+                ->once();
+        });
+
+        $result = Artisan::call('react:component', ['name' => 'TestComponent', '--class' => true]);
+
+        $this->assertSame(0, $result);
+    }
+}
