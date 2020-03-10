@@ -1,8 +1,8 @@
 # laravel-react-make
 
-**This is an Alpha release expect breaking changes ahead**
+**This is a Beta release please report any issues**
 
-Artisan generator for React function components. Supports Laravel 7, 6 &amp; 5.8.
+Artisan generator for React function and class components. Supports Laravel 7, 6 &amp; 5.8.
 
 ## Quick start
 
@@ -41,4 +41,10 @@ Use `.jsx` file extension (short version `-x` is also available)
 ```
 % php artisan react:component --jsx MyComponent
 # -> resources/js/components/MyComponent.jsx
+```
+
+Generate a class based component (uses a dedicated stub):
+```
+% php artisan react:component --class MyComponent
+# -> resources/js/components/MyComponent.js
 ```
