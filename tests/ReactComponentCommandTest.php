@@ -8,8 +8,6 @@ use Illuminate\Filesystem\Filesystem;
 use Mockery\MockInterface;
 use _77Gears_\ReactMake\Support\CommandsProvider;
 
-// TODO use either path helpers OR App facade.
-
 class ReactComponentCommandTest extends TestCase {
 
     protected function getPackageProviders($app)
@@ -63,7 +61,7 @@ class ReactComponentCommandTest extends TestCase {
                 'put' => 23,
             ]);
 
-            $dirpath = App::resourcePath('js/components/foo/bar');
+            $dirpath = resource_path('js/components/foo/bar');
 
             $mock->shouldReceive('makeDirectory')
                 ->withArgs([$dirpath, 0777, true, true])
@@ -105,7 +103,7 @@ class ReactComponentCommandTest extends TestCase {
             ]);
 
             $mock->shouldReceive('put')
-                ->withArgs([App::resourcePath('js/components/TestComponent.js'), 'template content'])
+                ->withArgs([resource_path('js/components/TestComponent.js'), 'template content'])
                 ->once();
         });
 
@@ -124,7 +122,7 @@ class ReactComponentCommandTest extends TestCase {
             ]);
 
             $mock->shouldReceive('put')
-                ->withArgs([App::resourcePath('js/components/TestComponent.jsx'), 'template content'])
+                ->withArgs([resource_path('js/components/TestComponent.jsx'), 'template content'])
                 ->once();
         });
 
