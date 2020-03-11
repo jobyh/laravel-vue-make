@@ -1,8 +1,6 @@
 # laravel-react-make
 [![Build Status](https://travis-ci.com/77gears/laravel-react-make.svg?branch=master)](https://travis-ci.com/77gears/laravel-react-make)
 
-**This is a Beta release please report any issues**
-
 Artisan generator for React function and class components. Supports Laravel 7, 6 &amp; 5.8.
 
 ## Quick start
