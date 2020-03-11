@@ -42,7 +42,7 @@ Use `.jsx` file extension (short version `-x` is also available)
 # -> resources/js/components/MyComponent.jsx
 ```
 
-Generate a class based component (uses a dedicated stub):
+Generate a class based component (short version `-c` is also available)
 ```
 % php artisan react:component --class MyComponent
 # -> resources/js/components/MyComponent.js
