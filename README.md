@@ -1,7 +1,13 @@
 # laravel-vue-make
 [![Build Status](https://travis-ci.com/jobyh/laravel-vue-make.svg?branch=master)](https://travis-ci.com/jobyh/laravel-vue-make)
 
-Artisan generator for React function and class components. Supports Laravel 7, 6 &amp; 5.8.
+Artisan generator for Vue component files. Supports Laravel 7, 6 &amp; 5.8.
+
+## Why?
+
+- I scaffold stuff up using Artisan a lot
+- It's straight-forward to use and consistent
+
 
 ## Quick start
 
@@ -21,7 +27,7 @@ Yes please.
 
 ## Usage
 
-Generate a React function component:
+Generate a Vue component file:
 
 ```
 % php artisan vue:component MyComponent
