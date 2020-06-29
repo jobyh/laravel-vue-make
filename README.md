@@ -18,6 +18,9 @@ Artisan generator for Vue component files. Supports Laravel 7, 6 &amp; 5.8.
 
 ### Customise Stubs
 
+I use Tailwind for styles so the default stubs don't
+contain a `<style>` tag. You might though so...
+
 Publishing stubs in Laravel 7 is a [great feature](https://laravel.com/docs/7.x/artisan#stub-customization).
 Yes please.
 
