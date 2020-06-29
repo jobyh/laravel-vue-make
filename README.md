@@ -1,5 +1,5 @@
-# laravel-react-make
-[![Build Status](https://travis-ci.com/77gears/laravel-react-make.svg?branch=master)](https://travis-ci.com/77gears/laravel-react-make)
+# laravel-vue-make
+[![Build Status](https://travis-ci.com/jobyh/laravel-vue-make.svg?branch=master)](https://travis-ci.com/jobyh/laravel-vue-make)
 
 Artisan generator for React function and class components. Supports Laravel 7, 6 &amp; 5.8.
 
@@ -7,7 +7,7 @@ Artisan generator for React function and class components. Supports Laravel 7, 6
 
 ```
 % cd /path/to/laravel/project
-% composer require --dev 77gears/laravel-react-make
+% composer require --dev jobyh/laravel-vue-make
 ```
 
 ### Customise Stubs
@@ -16,7 +16,7 @@ Publishing stubs in Laravel 7 is a [great feature](https://laravel.com/docs/7.x/
 Yes please.
 
 ```
-% php artisan vendor:publish --tag react-stub
+% php artisan vendor:publish --tag vue-stub
 ```
 
 ## Usage
@@ -24,26 +24,13 @@ Yes please.
 Generate a React function component:
 
 ```
-% php artisan react:component MyComponent
-# -> resources/js/components/MyComponent.js
+% php artisan vue:component MyComponent
+# -> resources/js/components/MyComponent.vue
 ```
 
 Generate under a subdirectory (short version `-d` is also available):
 
 ```
-% php artisan react:component --dir='foo/bar' MyComponent
+% php artisan vue:component --dir='foo/bar' MyComponent
 # -> resources/js/components/foo/bar/MyComponent.js
-```
-
-Use `.jsx` file extension (short version `-x` is also available)
-
-```
-% php artisan react:component --jsx MyComponent
-# -> resources/js/components/MyComponent.jsx
-```
-
-Generate a class based component (short version `-c` is also available)
-```
-% php artisan react:component --class MyComponent
-# -> resources/js/components/MyComponent.js
 ```

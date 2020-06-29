@@ -10,7 +10,7 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="React Make Test Suite">
+        <testsuite name="Vue Make Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>

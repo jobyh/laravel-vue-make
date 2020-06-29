@@ -1,10 +1,9 @@
 {
-  "name": "77gears/laravel-react-make",
-  "description": "Artisan command to generate React components",
+  "name": "jobyh/laravel-vue-make",
+  "description": "Artisan command to generate Vue components",
   "keywords": [
-    "77gears",
     "laravel",
-    "react",
+    "vue",
     "artisan",
     "generator"
   ],
@@ -12,12 +11,12 @@
   "authors": [
     {
       "name": "Joby Harding",
-      "email": "joby@77gears.com"
+      "email": "joby@jobyharding.com"
     }
   ],
   "autoload": {
     "psr-4": {
-      "_77Gears_\\ReactMake\\": "src"
+      "JobyH\\VueMake\\": "src"
     }
   },
   "minimum-stability": "dev",
@@ -28,7 +27,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "_77Gears_\\ReactMake\\Support\\CommandsProvider"
+        "JobyH\\VueMake\\Support\\CommandsProvider"
       ]
     }
   },

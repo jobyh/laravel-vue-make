@@ -5,9 +5,9 @@ use Illuminate\Support\Facades\File;
 use Orchestra\Testbench\TestCase;
 use Illuminate\Filesystem\Filesystem;
 use Mockery\MockInterface;
-use _77Gears_\ReactMake\Support\CommandsProvider;
+use JobyH\VueMake\Support\CommandsProvider;
 
-class ReactComponentCommandTest extends TestCase {
+class VueComponentCommandTest extends TestCase {
 
     protected function getPackageProviders($app)
     {
@@ -18,13 +18,13 @@ class ReactComponentCommandTest extends TestCase {
     {
         $this->expectErrorMessage('missing: "name"');
 
-        Artisan::call('react:component');
+        Artisan::call('vue:component');
     }
 
     public function test_it_checks_if_component_already_exists()
     {
         $this->mock(Filesystem::class, function(MockInterface $mock) {
-            $filepath = resource_path('js/components/TestComponent.js');
+            $filepath = resource_path('js/components/TestComponent.vue');
 
             // Stubs.
             $mock->allows([
@@ -44,7 +44,7 @@ class ReactComponentCommandTest extends TestCase {
             $mock->shouldReceive('exists')->once();
         });
 
-        $result = Artisan::call('react:component', ['name' => 'TestComponent']);
+        $result = Artisan::call('vue:component', ['name' => 'TestComponent']);
         $this->assertSame(0, $result);
     }
 
@@ -68,7 +68,7 @@ class ReactComponentCommandTest extends TestCase {
                 ->andReturn(true);
         });
 
-        $result = Artisan::call('react:component', ['name' => 'TestComponent', '--dir' => 'foo/bar']);
+        $result = Artisan::call('vue:component', ['name' => 'TestComponent', '--dir' => 'foo/bar']);
         $this->assertSame(0, $result);
     }
 
@@ -83,11 +83,11 @@ class ReactComponentCommandTest extends TestCase {
             ]);
 
             $mock->shouldReceive('get')
-                ->with(realpath(__DIR__ . '/../stubs/react.stub'))
+                ->with(realpath(__DIR__ . '/../stubs/vue.stub'))
                 ->once();
         });
 
-        $result = Artisan::call('react:component', ['name' => 'TestComponent']);
+        $result = Artisan::call('vue:component', ['name' => 'TestComponent']);
         $this->assertSame(0, $result);
     }
 
@@ -102,46 +102,28 @@ class ReactComponentCommandTest extends TestCase {
             ]);
 
             $mock->shouldReceive('put')
-                ->withArgs([resource_path('js/components/TestComponent.js'), 'template content'])
+                ->withArgs([resource_path('js/components/TestComponent.vue'), 'template content'])
                 ->once();
         });
 
-        $result = Artisan::call('react:component', ['name' => 'TestComponent']);
+        $result = Artisan::call('vue:component', ['name' => 'TestComponent']);
         $this->assertSame(0, $result);
     }
 
-    public function test_it_uses_jsx_extension()
-    {
-        $this->mock(Filesystem::class, function(MockInterface $mock) {
-            // Stubs.
-            $mock->allows([
-                'exists' => false,
-                'isDirectory' => true,
-                'get' => 'template content',
-            ]);
-
-            $mock->shouldReceive('put')
-                ->withArgs([resource_path('js/components/TestComponent.jsx'), 'template content'])
-                ->once();
-        });
-
-        $result = Artisan::call('react:component', ['name' => 'TestComponent', '--jsx' => true]);
-        $this->assertSame(0, $result);
-    }
 
     public function test_it_uses_overridden_stubs()
     {
         File::deleteDirectory(base_path('stubs'));
         File::deleteDirectory(resource_path('js/components'));
 
-        $stubPath = base_path('stubs/react.stub');
+        $stubPath = base_path('stubs/vue.stub');
         File::makeDirectory(dirname($stubPath));
         File::put($stubPath, 'Overridden stub');
 
-        $result = Artisan::call('react:component', ['name' => 'TestComponent']);
+        $result = Artisan::call('vue:component', ['name' => 'TestComponent']);
 
         $this->assertSame(0, $result);
-        $this->assertSame('Overridden stub', File::get(resource_path('js/components/TestComponent.js')));
+        $this->assertSame('Overridden stub', File::get(resource_path('js/components/TestComponent.vue')));
     }
 
     public function test_it_publishes_stubs()
@@ -149,7 +131,7 @@ class ReactComponentCommandTest extends TestCase {
         File::deleteDirectory(base_path('stubs'));
         File::deleteDirectory(resource_path('js/components'));
 
-        $result = Artisan::call('vendor:publish', ['--tag' => 'react-stub']);
+        $result = Artisan::call('vendor:publish', ['--tag' => 'vue-stub']);
 
         $this->assertSame(0, $result);
 
@@ -158,26 +140,4 @@ class ReactComponentCommandTest extends TestCase {
         }
     }
 
-    public function test_it_uses_class_component_stub()
-    {
-        File::deleteDirectory(base_path('stubs'));
-        File::deleteDirectory(resource_path('js/components'));
-
-        $this->mock(Filesystem::class, function(MockInterface $mock) {
-            // Stubs.
-            $mock->allows([
-                'exists' => false,
-                'isDirectory' => true,
-                'put' => 23,
-            ]);
-
-            $mock->shouldReceive('get')
-                ->with(realpath(__DIR__ . '/../stubs/react-class.stub'))
-                ->once();
-        });
-
-        $result = Artisan::call('react:component', ['name' => 'TestComponent', '--class' => true]);
-
-        $this->assertSame(0, $result);
-    }
 }

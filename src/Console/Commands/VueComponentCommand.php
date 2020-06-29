@@ -1,26 +1,26 @@
 <?php
 
-namespace _77Gears_\ReactMake\Console\Commands;
+namespace JobyH\VueMake\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\App;
 
-class ReactComponentCommand extends Command
+class VueComponentCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'react:component {name} {--x|jsx} {--d|dir=} {--c|class}';
+    protected $signature = 'vue:component {name} {--d|dir=}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new React component';
+    protected $description = 'Create a new Vue component';
 
     /**
      * The filesystem instance.
@@ -45,16 +45,12 @@ class ReactComponentCommand extends Command
     }
 
     protected function getExtension() : string {
-        return $this->option('jsx')
-            ? 'jsx'
-            : 'js';
+        return 'vue';
     }
 
     protected function getStub() : string
     {
-        $stub = $this->option('class')
-            ? 'react-class.stub'
-            : 'react.stub';
+        $stub = 'vue.stub';
         $override = base_path("stubs/{$stub}");
 
         if ($this->files->exists($override)) {
