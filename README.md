@@ -1,5 +1,5 @@
 # laravel-vue-make
-[![Build Status](https://travis-ci.com/jobyh/laravel-vue-make.svg?branch=master)](https://travis-ci.com/jobyh/laravel-vue-make)
+[![Build Status](https://travis-ci.com/jobyh/laravel-vue-make.svg?branch=main)](https://travis-ci.com/jobyh/laravel-vue-make)
 
 Artisan generator for Vue component files. Supports Laravel 7, 6 &amp; 5.8.
 
