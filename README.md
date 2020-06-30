@@ -41,5 +41,5 @@ Generate under a subdirectory (short version `-d` is also available):
 
 ```
 % php artisan vue:component --dir='foo/bar' MyComponent
-# -> resources/js/components/foo/bar/MyComponent.js
+# -> resources/js/components/foo/bar/MyComponent.vue
 ```
