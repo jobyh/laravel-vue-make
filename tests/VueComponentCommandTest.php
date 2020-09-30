@@ -18,7 +18,7 @@ class VueComponentCommandTest extends TestCase {
     {
         $this->expectErrorMessage('missing: "name"');
 
-        Artisan::call('vue:component');
+        Artisan::call('make:vue');
     }
 
     public function test_it_checks_if_component_already_exists()
@@ -44,7 +44,7 @@ class VueComponentCommandTest extends TestCase {
             $mock->shouldReceive('exists')->once();
         });
 
-        $result = Artisan::call('vue:component', ['name' => 'TestComponent']);
+        $result = Artisan::call('make:vue', ['name' => 'TestComponent']);
         $this->assertSame(0, $result);
     }
 
@@ -68,7 +68,7 @@ class VueComponentCommandTest extends TestCase {
                 ->andReturn(true);
         });
 
-        $result = Artisan::call('vue:component', ['name' => 'TestComponent', '--dir' => 'foo/bar']);
+        $result = Artisan::call('make:vue', ['name' => 'foo/bar/TestComponent']);
         $this->assertSame(0, $result);
     }
 
@@ -87,7 +87,7 @@ class VueComponentCommandTest extends TestCase {
                 ->once();
         });
 
-        $result = Artisan::call('vue:component', ['name' => 'TestComponent']);
+        $result = Artisan::call('make:vue', ['name' => 'TestComponent']);
         $this->assertSame(0, $result);
     }
 
@@ -106,7 +106,7 @@ class VueComponentCommandTest extends TestCase {
                 ->once();
         });
 
-        $result = Artisan::call('vue:component', ['name' => 'TestComponent']);
+        $result = Artisan::call('make:vue', ['name' => 'TestComponent']);
         $this->assertSame(0, $result);
     }
 
@@ -120,7 +120,7 @@ class VueComponentCommandTest extends TestCase {
         File::makeDirectory(dirname($stubPath));
         File::put($stubPath, 'Overridden stub');
 
-        $result = Artisan::call('vue:component', ['name' => 'TestComponent']);
+        $result = Artisan::call('make:vue', ['name' => 'TestComponent']);
 
         $this->assertSame(0, $result);
         $this->assertSame('Overridden stub', File::get(resource_path('js/components/TestComponent.vue')));
@@ -140,4 +140,22 @@ class VueComponentCommandTest extends TestCase {
         }
     }
 
+    public function test_it_correctly_replaces_dummy_component()
+    {
+        $this->mock(Filesystem::class, function(MockInterface $mock) {
+            // Stubs.
+            $mock->allows([
+                'exists' => false,
+                'isDirectory' => true,
+                'get' => 'DummyComponent',
+            ]);
+
+            $mock->shouldReceive('put')
+                ->withArgs([resource_path('js/components/sub/dir/TestComponent.vue'), 'TestComponent'])
+                ->once();
+        });
+
+        $result = Artisan::call('make:vue', ['name' => 'sub/dir/TestComponent']);
+        $this->assertSame(0, $result);
+    }
 }

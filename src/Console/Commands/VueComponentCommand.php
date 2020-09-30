@@ -13,7 +13,7 @@ class VueComponentCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'vue:component {name} {--d|dir=}';
+    protected $signature = 'make:vue {name : The name of the Vue component}';
 
     /**
      * The console command description.
@@ -38,10 +38,8 @@ class VueComponentCommand extends Command
 
     protected function getPath(string $name) : string
     {
-        $subDir = $this->option('dir')
-            ? "{$this->option('dir')}/"
-            : '';
-        return App::resourcePath("js/components/{$subDir}{$name}.{$this->getExtension()}");
+        $relative = join(DIRECTORY_SEPARATOR, ['js', 'components', "$name.{$this->getExtension()}"]);
+        return App::resourcePath($relative);
     }
 
     protected function getExtension() : string {
@@ -57,7 +55,7 @@ class VueComponentCommand extends Command
             return $override;
         }
 
-        return realpath(__DIR__ . "/../../../stubs/{$stub}");
+        return realpath(join(DIRECTORY_SEPARATOR, [__DIR__, '..', '..', '..', 'stubs', $stub]));
     }
 
     protected function makeDirectory(string $path) : string
@@ -75,7 +73,7 @@ class VueComponentCommand extends Command
     {
         $stub = $this->files->get($this->getStub()) ;
 
-        return str_replace('DummyComponent', $name, $stub);
+        return str_replace('DummyComponent', basename($name), $stub);
     }
 
     /**
