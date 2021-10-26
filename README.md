@@ -1,6 +1,8 @@
 # laravel-vue-make
 [![Build Status](https://travis-ci.com/jobyh/laravel-vue-make.svg?branch=main)](https://travis-ci.com/jobyh/laravel-vue-make)
 
+> This repo has been archived. Please use 👉 [this package](https://github.com/FullStackAppCo/laravel-vue-make) instead. 🙂
+
 Artisan generator for Vue component files. Supports Laravel 8, 7 &amp; 6.
 
 ## Why?
